@@ -147,6 +147,11 @@ activemq-data/
 # SageMath parsed files
 *.sage.py
 
+#data
+data/
+*.csv
+*.parquet
+
 # Environments
 .env
 .envrc
@@ -175,7 +180,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# pytype static type analyzer
+# pytype data type analyzer
 .pytype/
 
 # Cython debug symbols

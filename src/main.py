@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
-CITY = "Bengaluru"
+CITIES = ["Bengaluru", "Chennai", "Coimbatore", "Hyderabad", "Kochi"]
 
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
@@ -34,9 +34,13 @@ def parse_data(data):
     }])
 
 def save_files(df):
-    df.to_csv("./static/clean_data.csv", index=False)
-    df.to_parquet("./static/clean_parq.parquet", index=False)
-    print("data is getting saved")
+    # CSV — append if exists
+    csv_path = "./data/csv/clean_data.csv"
+    if os.path.exists(csv_path):
+        df.to_csv(csv_path, mode="a", header=False, index=False)
+    else:
+        df.to_csv(csv_path, index=False)
+    print("CSV saved")
 
 def load_to_postgres(df):
     engine = create_engine(
@@ -51,8 +55,15 @@ def load_to_postgres(df):
     print("Data loaded into PostgreSQL successfully")
 
 # --- Run ---
-data = fetch_data(CITY, API_KEY)
-df = parse_data(data)
-print(df)
-save_files(df)
-load_to_postgres(df)
+all_data = []
+for CITY in CITIES:
+    data = fetch_data(CITY, API_KEY)
+    df = parse_data(data)
+    print(df)
+    save_files(df)
+    all_data.append(df)
+    load_to_postgres(df)
+
+final_df = pd.concat(all_data, ignore_index=True)
+timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
+final_df.to_parquet(f"./data/parquet/weather_all_{timestamp}.parquet", index=False)
