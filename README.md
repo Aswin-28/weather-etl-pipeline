@@ -2,6 +2,7 @@
 End-to-end ETL pipeline that ingests live weather data from OpenWeatherMap API, transforms with Python/pandas, and loads into PostgreSQL, CSV, and Parquet
 
 ## Pipeline Architecture
+```bash
 OpenWeatherMap API
 ↓
 Extract (requests)
@@ -13,7 +14,7 @@ Transform (pandas)
 │ Parquet file      │
 │ PostgreSQL DB     │
 └───────────────────┘
-
+```
 ## Tech Stack
 
 - **Python** — core pipeline logic
@@ -33,6 +34,8 @@ This pipeline is orchestrated using **Apache Airflow** running on WSL2.
   - `fetch_and_transform` — hits API for 5 cities, saves CSV and Parquet
   - `load_to_postgres` — inserts data into PostgreSQL
 
+## Project Structure
+```bash
 weather-etl-pipeline/
 ├── src/
 │   ├── main.py           # Manual ETL script
@@ -40,7 +43,7 @@ weather-etl-pipeline/
 ├── .gitignore
 ├── .env.example
 └── README.md
-
+```
 ## What This Pipeline Does
 
 1. **Extract** — Hits the OpenWeatherMap API and pulls current weather data for a configured city
