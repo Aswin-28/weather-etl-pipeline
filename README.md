@@ -23,13 +23,23 @@ Transform (pandas)
 - **PostgreSQL** — relational database storage
 - **Parquet** — columnar file format for efficient storage
 
-## Project Structure
+## Orchestration
+
+This pipeline is orchestrated using **Apache Airflow** running on WSL2.
+
+- DAG: `weather_etl_pipeline`
+- Schedule: `@hourly`
+- Tasks:
+  - `fetch_and_transform` — hits API for 5 cities, saves CSV and Parquet
+  - `load_to_postgres` — inserts data into PostgreSQL
+
 weather-etl-pipeline/
-│
-├── main.py           # Main ETL script
-├── .env.example      # Environment variable template
-├── .gitignore        # Excludes .env and sensitive files
-└── README.md         # Project documentation
+├── src/
+│   ├── main.py           # Manual ETL script
+│   └── weather_dag.py    # Airflow DAG for scheduled pipeline
+├── .gitignore
+├── .env.example
+└── README.md
 
 ## What This Pipeline Does
 
