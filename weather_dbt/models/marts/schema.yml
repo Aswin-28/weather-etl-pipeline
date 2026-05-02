@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: avg_weather_by_city
+    description: "Average weather metrics per city across all hourly pipeline runs"
+    columns:
+      - name: city
+        description: "City name"
+        tests:
+          - not_null
+          - unique
+
+      - name: avg_temperature
+        description: "Average temperature in celsius across all readings"
+        tests:
+          - not_null
+
+      - name: total_readings
+        description: "Total number of hourly readings collected for this city"
+        tests:
+          - not_null - not_null

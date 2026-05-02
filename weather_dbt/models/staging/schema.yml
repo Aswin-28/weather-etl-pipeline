@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: stg_weather
+    description: "Cleaned and staged weather data from OpenWeatherMap API"
+    columns:
+      - name: city
+        description: "City name"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Bengaluru', 'Mumbai', 'Chennai', 'Delhi', 'Hyderabad', 'Kochi', 'Coimbatore']
+
+      - name: temperature
+        description: "Temperature in celsius"
+        tests:
+          - not_null
+
+      - name: humidity
+        description: "Humidity percentage"
+        tests:
+          - not_null
+
+      - name: recorded_at
+        description: "Timestamp of the reading in UTC"
+        tests:
+          - not_null
